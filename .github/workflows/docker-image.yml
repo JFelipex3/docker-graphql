@@ -38,15 +38,15 @@ jobs:
       env:
         NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
-        docker build -t jfelipex3/docker-graphql:$NEW_VERSION .
-        docker build -t jfelipex3/docker-graphql:latest .
+        docker buildx build --platform linux/amd64,linux/arm64 -t jfelipex3/docker-graphql:$NEW_VERSION .
+        docker buildx build --platform linux/amd64,linux/arm64 -t jfelipex3/docker-graphql:latest .
 
     - name: Push Docker Image
       env:
         NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         docker push jfelipex3/docker-graphql:$NEW_VERSION
-        docker build -t jfelipex3/docker-graphql:latest
+        docker push jfelipex3/docker-graphql:latest
     
     # - name: Build the Docker image
     #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
