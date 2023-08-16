@@ -34,6 +34,11 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "New Version: $NEW_VERSION !!!!"
 
+    - name: Create Buildx and Use
+      run: |
+        docker buildx create --name mybuilder --driver docker-container --bootstrap
+        docker buildx use mybuilder
+
     - name: Build Docker Image
       env:
         NEW_VERSION: ${{ steps.version.outputs.version }}
